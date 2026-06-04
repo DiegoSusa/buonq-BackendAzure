@@ -5,9 +5,8 @@ from flask_cors import CORS
 from database import conectar
 
 app = Flask(__name__)
-CORS(app)  # Permite peticiones desde cualquier frontend
+CORS(app)
 
-# Para que Azure App Service (Gunicorn) detecte la aplicación correctamente
 application = app
 
 @app.route("/")
@@ -19,21 +18,55 @@ def reservar():
     conexion = None
     cursor = None
     try:
-        nombre = request.form["nombre"]
-        telefono = request.form["telefono"]
-        email = request.form["email"]
+        # Obtener datos del formulario
+        nombre = request.form.get("nombre", "").strip()
+        telefono = request.form.get("telefono", "").strip()
+        email = request.form.get("email", "").strip()
+        personas_raw = request.form.get("personas", "").strip()
+        fecha = request.form.get("fecha", "").strip()
+        hora_raw = request.form.get("hora", "").strip()
+        comentarios = request.form.get("comentarios", "").strip()
+
+        # ==========================================
+        # VALIDACIONES SOLO PARA CAMPOS QUE ESCRIBE EL USUARIO
+        # ==========================================
+        if not nombre:
+            return jsonify({"success": False, "error": "El nombre es obligatorio"}), 400
         
-        personas_raw = request.form["personas"]
+        if not telefono:
+            return jsonify({"success": False, "error": "El teléfono es obligatorio"}), 400
+        
+        if not email:
+            return jsonify({"success": False, "error": "El email es obligatorio"}), 400
+
+        # ==========================================
+        # VALIDACIÓN DE FORMATO DE EMAIL
+        # ==========================================
+        if "@" not in email or "." not in email:
+            return jsonify({"success": False, "error": "Ingresa un email válido (ejemplo: correo@dominio.com)"}), 400
+
+        # ==========================================
+        # VALIDACIÓN DE TELÉFONO
+        # ==========================================
+        import re
+        telefono_limpio = re.sub(r'[^\d+]', '', telefono)
+        if len(telefono_limpio) < 7:
+            return jsonify({"success": False, "error": "El teléfono debe tener al menos 7 dígitos"}), 400
+
+        # ==========================================
+        # PROCESAR PERSONAS (viene de select, confiable)
+        # ==========================================
         personas = int(personas_raw.replace("+", "").split()[0])
-        
-        fecha = request.form["fecha"]
-        
-        hora_raw = request.form["hora"]
+
+        # ==========================================
+        # PROCESAR FECHA Y HORA (confiables)
+        # ==========================================
         hora_obj = datetime.strptime(hora_raw, "%I:%M %p").time()
         hora_sql = hora_obj.strftime("%H:%M:%S")
-        
-        comentarios = request.form["comentarios"]
 
+        # ==========================================
+        # INSERTAR EN BASE DE DATOS
+        # ==========================================
         conexion = conectar()
         cursor = conexion.cursor()
 
@@ -50,7 +83,6 @@ def reservar():
 
     except Exception as e:
         error_msg = str(e)
-        # Verificar si es error por duplicado (UNIQUE constraint)
         if "UNIQUE" in error_msg or "duplicate" in error_msg.lower() or "violation" in error_msg.lower():
             return jsonify({
                 "success": False, 
