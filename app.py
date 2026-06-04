@@ -1,9 +1,11 @@
 import os
 from datetime import datetime
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from database import conectar
 
 app = Flask(__name__)
+CORS(app)  # Permite peticiones desde cualquier frontend
 
 # Para que Azure App Service (Gunicorn) detecte la aplicación correctamente
 application = app
@@ -47,8 +49,15 @@ def reservar():
         return jsonify({"success": True, "message": "Reserva creada con éxito"}), 201
 
     except Exception as e:
-        # En caso de error, devolvemos el mensaje y un código de estado 400
-        return jsonify({"success": False, "error": str(e)}), 400
+        error_msg = str(e)
+        # Verificar si es error por duplicado (UNIQUE constraint)
+        if "UNIQUE" in error_msg or "duplicate" in error_msg.lower() or "violation" in error_msg.lower():
+            return jsonify({
+                "success": False, 
+                "error": "Ya existe una reserva para esta fecha y hora. Por favor elige otro horario."
+            }), 400
+        else:
+            return jsonify({"success": False, "error": error_msg}), 400
 
     finally:
         if cursor:
