@@ -17,6 +17,7 @@ def home():
 def reservar():
     conexion = None
     cursor = None
+
     try:
         # Obtener datos del formulario
         nombre = request.form.get("nombre", "").strip()
@@ -28,41 +29,99 @@ def reservar():
         comentarios = request.form.get("comentarios", "").strip()
 
         # ==========================================
-        # VALIDACIONES SOLO PARA CAMPOS QUE ESCRIBE EL USUARIO
+        # VALIDACIONES DE CAMPOS OBLIGATORIOS
         # ==========================================
         if not nombre:
-            return jsonify({"success": False, "error": "El nombre es obligatorio"}), 400
-        
+            return jsonify({
+                "success": False,
+                "error": "El nombre es obligatorio"
+            }), 400
+
         if not telefono:
-            return jsonify({"success": False, "error": "El teléfono es obligatorio"}), 400
-        
+            return jsonify({
+                "success": False,
+                "error": "El teléfono es obligatorio"
+            }), 400
+
         if not email:
-            return jsonify({"success": False, "error": "El email es obligatorio"}), 400
+            return jsonify({
+                "success": False,
+                "error": "El email es obligatorio"
+            }), 400
+
+        if not fecha:
+            return jsonify({
+                "success": False,
+                "error": "La fecha es obligatoria"
+            }), 400
+
+        if not hora_raw:
+            return jsonify({
+                "success": False,
+                "error": "La hora es obligatoria"
+            }), 400
+
+        if not personas_raw:
+            return jsonify({
+                "success": False,
+                "error": "Debes seleccionar el número de personas"
+            }), 400
 
         # ==========================================
-        # VALIDACIÓN DE FORMATO DE EMAIL
+        # VALIDACIÓN DE EMAIL
         # ==========================================
         if "@" not in email or "." not in email:
-            return jsonify({"success": False, "error": "Ingresa un email válido (ejemplo: correo@dominio.com)"}), 400
+            return jsonify({
+                "success": False,
+                "error": "Ingresa un email válido (ejemplo: correo@dominio.com)"
+            }), 400
 
         # ==========================================
         # VALIDACIÓN DE TELÉFONO
         # ==========================================
         import re
-        telefono_limpio = re.sub(r'[^\d+]', '', telefono)
+
+        telefono_limpio = re.sub(r"[^\d+]", "", telefono)
+
         if len(telefono_limpio) < 7:
-            return jsonify({"success": False, "error": "El teléfono debe tener al menos 7 dígitos"}), 400
+            return jsonify({
+                "success": False,
+                "error": "El teléfono debe tener al menos 7 dígitos"
+            }), 400
 
         # ==========================================
-        # PROCESAR PERSONAS (viene de select, confiable)
+        # VALIDAR Y PROCESAR PERSONAS
         # ==========================================
-        personas = int(personas_raw.replace("+", "").split()[0])
+        try:
+            personas = int(personas_raw.replace("+", "").split()[0])
+        except (ValueError, IndexError):
+            return jsonify({
+                "success": False,
+                "error": "Cantidad de personas inválida"
+            }), 400
 
         # ==========================================
-        # PROCESAR FECHA Y HORA (confiables)
+        # VALIDAR FECHA
         # ==========================================
-        hora_obj = datetime.strptime(hora_raw, "%I:%M %p").time()
-        hora_sql = hora_obj.strftime("%H:%M:%S")
+        try:
+            datetime.strptime(fecha, "%Y-%m-%d")
+        except ValueError:
+            return jsonify({
+                "success": False,
+                "error": "Formato de fecha inválido"
+            }), 400
+
+        # ==========================================
+        # VALIDAR HORA
+        # ==========================================
+        try:
+            hora_obj = datetime.strptime(hora_raw, "%I:%M %p").time()
+            hora_sql = hora_obj.strftime("%H:%M:%S")
+        except ValueError:
+            return jsonify({
+                "success": False,
+                "error": "Formato de hora inválido"
+            }), 400
 
         # ==========================================
         # INSERTAR EN BASE DE DATOS
@@ -75,28 +134,49 @@ def reservar():
             (nombre, telefono, email, personas, fecha, hora, comentarios)
             VALUES (?, ?, ?, ?, ?, ?, ?)
         """
-        
-        cursor.execute(sql_query, (nombre, telefono, email, personas, fecha, hora_sql, comentarios))
+
+        cursor.execute(sql_query, (
+            nombre,
+            telefono,
+            email,
+            personas,
+            fecha,
+            hora_sql,
+            comentarios
+        ))
+
         conexion.commit()
 
-        return jsonify({"success": True, "message": "Reserva creada con éxito"}), 201
+        return jsonify({
+            "success": True,
+            "message": "Reserva creada con éxito"
+        }), 201
 
     except Exception as e:
         error_msg = str(e)
-        if "UNIQUE" in error_msg or "duplicate" in error_msg.lower() or "violation" in error_msg.lower():
+
+        if (
+            "UNIQUE" in error_msg
+            or "duplicate" in error_msg.lower()
+            or "violation" in error_msg.lower()
+        ):
             return jsonify({
-                "success": False, 
+                "success": False,
                 "error": "Ya existe una reserva para esta fecha y hora. Por favor elige otro horario."
             }), 400
-        else:
-            return jsonify({"success": False, "error": error_msg}), 400
+
+        return jsonify({
+            "success": False,
+            "error": error_msg
+        }), 400
 
     finally:
         if cursor:
             cursor.close()
+
         if conexion:
             conexion.close()
 
 if __name__ == "__main__":
     puerto = int(os.environ.get("PORT", 8000))
-    app.run(host='0.0.0.0', port=puerto)
+    app.run(host="0.0.0.0", port=puerto)
