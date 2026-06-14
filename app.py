@@ -154,6 +154,7 @@ def reservar():
 
     except Exception as e:
         error_msg = str(e)
+        print("ERROR BD:", str(e))
 
         if (
             "UNIQUE" in error_msg
@@ -167,8 +168,8 @@ def reservar():
 
         return jsonify({
             "success": False,
-            "error": error_msg
-        }), 400
+            "error": "Ocurrió un error al procesar la reserva. Intenta nuevamente más tarde."
+        }), 500
 
     finally:
         if cursor:
