@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Confirmación de Reserva - BuonQ</title>
+    <style>
+        /* Estilos base para mantener coherencia en clientes de email */
+        .ExternalClass, .ReadMsgBody {
+            width: 100%;
+            background-color: #f4f6f8;
+        }
+        body, table, td, p, a {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+        table, td {
+            border-collapse: collapse;
+        }
+        img {
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+            -ms-interpolation-mode: bicubic;
+        }
+        /* Estilos responsivos */
+        @media only screen and (max-width: 600px) {
+            .responsive-table {
+                width: 100% !important;
+            }
+            .inner-padding {
+                padding: 30px 25px !important;
+            }
+            .card-padding {
+                padding: 20px !important;
+            }
+            h1 {
+                font-size: 28px !important;
+            }
+            h2 {
+                font-size: 22px !important;
+            }
+            .hero-icon {
+                font-size: 44px !important;
+            }
+            .welcome-text {
+                font-size: 15px !important;
+            }
+        }
+    </style>
+</head>
+<body style="margin:0; padding:0; background-color:#f4f6f8; font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+
+    <!--[if (gte mso 9)|(IE)]>
+    <table width="650" align="center" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+            <tr>
+    <![endif]-->
+
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f4f6f8; padding: 45px 20px;">
+        <tr>
+            <td align="center" style="padding: 0;">
+                <!-- Contenedor principal elegante -->
+                <table width="650" cellpadding="0" cellspacing="0" border="0" style="max-width: 650px; width: 100%; background: #ffffff; border-radius: 28px; overflow: hidden; box-shadow: 0 25px 45px -12px rgba(0,0,0,0.25); font-family: inherit;">
+                    
+                    <!-- HEADER: Degradado sutil y dorado -->
+                    <tr>
+                        <td align="center" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding: 42px 30px 38px 30px;">
+                            <!-- Icono gourmet -->
+                            <div style="font-size: 52px; margin-bottom: 14px; display: inline-block; background: rgba(255,215,120,0.15); width: 80px; height: 80px; line-height: 86px; border-radius: 60px; text-align: center; box-shadow: 0 5px 12px rgba(0,0,0,0.1);">
+                                🍷
+                            </div>
+                            <h1 style="margin: 20px 0 0 0; color: #f9fafb; font-size: 34px; font-weight: 700; letter-spacing: -0.3px;">
+                                BuonQ
+                            </h1>
+                            <div style="width: 60px; height: 3px; background: #fbbf24; margin: 16px auto 12px auto; border-radius: 4px;"></div>
+                            <p style="margin: 0; color: #e2e8f0; font-size: 17px; font-weight: 400; letter-spacing: 0.3px;">
+                                Confirmación de Reserva
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- BODY principal con espaciado y texturas suaves -->
+                    <tr>
+                        <td class="inner-padding" style="padding: 48px 45px 45px 45px; background: #ffffff;">
+                            
+                            <!-- Saludo -->
+                            <h2 style="margin: 0 0 12px 0; font-size: 26px; color: #0f172a; font-weight: 600; letter-spacing: -0.2px;">
+                                Hola {{ nombre }},
+                            </h2>
+                            <p style="font-size: 16px; line-height: 1.6; color: #334155; margin: 0 0 18px 0;">
+                                ¡Nos llena de alegría confirmar tu reserva! <span style="display: inline-block;">🍝</span> Hemos apartado tu mesa con los mejores deseos de brindarte una experiencia inolvidable.
+                            </p>
+                            <p style="font-size: 16px; line-height: 1.6; color: #334155; margin: 0 0 24px 0;">
+                                A continuación encontrarás los detalles de tu reserva en <strong style="color:#b45309;">BuonQ</strong>:
+                            </p>
+
+                            <!-- Tarjeta de reserva: estilizada, sombra y bordes elegantes -->
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin: 18px 0 10px 0;">
+                                <tr>
+                                    <td style="background: #fefcf5; border-radius: 24px; border: 1px solid #f5e6d3; box-shadow: 0 8px 20px rgba(0,0,0,0.02);">
+                                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                            <tr>
+                                                <td class="card-padding" style="padding: 28px 30px;">
+                                                    <!-- Detalles internos con iconos mejorados -->
+                                                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                                        <!-- Fecha -->
+                                                        <tr>
+                                                            <td style="padding: 12px 0; border-bottom: 1px solid #f0e5d6;">
+                                                                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                                                    <tr>
+                                                                        <td style="font-size: 16px; font-weight: 600; color: #3b2a1f;">
+                                                                            <span style="font-size: 20px; margin-right: 12px;">📅</span> Fecha
+                                                                        </td>
+                                                                        <td align="right" style="font-size: 17px; font-weight: 500; color: #7b3f00;">
+                                                                            {{ fecha }}
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                        <!-- Hora -->
+                                                        <tr>
+                                                            <td style="padding: 12px 0; border-bottom: 1px solid #f0e5d6;">
+                                                                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                                                    <tr>
+                                                                        <td style="font-size: 16px; font-weight: 600; color: #3b2a1f;">
+                                                                            <span style="font-size: 20px; margin-right: 12px;">🕰️</span> Hora
+                                                                        </td>
+                                                                        <td align="right" style="font-size: 17px; font-weight: 500; color: #7b3f00;">
+                                                                            {{ hora }}
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                        <!-- Personas -->
+                                                        <tr>
+                                                            <td style="padding: 12px 0;">
+                                                                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                                                    <tr>
+                                                                        <td style="font-size: 16px; font-weight: 600; color: #3b2a1f;">
+                                                                            <span style="font-size: 20px; margin-right: 12px;">👥</span> Personas
+                                                                        </td>
+                                                                        <td align="right" style="font-size: 17px; font-weight: 500; color: #7b3f00;">
+                                                                            {{ personas }}
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Badge de confirmación sutil -->
+                            <div style="text-align: center; margin: 8px 0 18px 0;">
+                                <span style="background: #f1f5f9; border-radius: 50px; padding: 5px 18px; font-size: 13px; font-weight: 500; color: #475569; display: inline-block;">
+                                    ✦ Reserva prioritaria ✦
+                                </span>
+                            </div>
+
+                            <!-- Notificación amigable con estilo cálido -->
+                            <table width="100%" style="margin-top: 28px;" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td style="background: #fffbeb; border-left: 5px solid #f59e0b; border-radius: 18px; padding: 18px 22px;">
+                                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                            <tr>
+                                                <td style="vertical-align: top; width: 32px;">
+                                                    <span style="font-size: 24px;">💡</span>
+                                                </td>
+                                                <td style="vertical-align: top;">
+                                                    <p style="margin: 0; font-size: 14.5px; line-height: 1.5; color: #7b5c2e;">
+                                                        <strong style="color: #b45309;">¿Necesitas cambios?</strong> Si requieres modificar o cancelar tu reserva, responde a este correo o llámanos con anticipación. Estaremos encantados de asistirte.
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Mensaje extra de cortesía con cita cálida -->
+                            <div style="margin-top: 38px; border-top: 1px dashed #e2e8f0; padding-top: 24px;">
+                                <p style="font-size: 15px; line-height: 1.6; color: #2d3a4b; margin: 0 0 12px 0; font-style: italic;">
+                                    “La buena cocina es el arte de transmitir felicidad a través de los sabores.”
+                                </p>
+                                <p style="margin: 8px 0 0 0; font-size: 16px; color: #1e293b;">
+                                    Gracias por confiar en nosotros para celebrar momentos únicos.
+                                </p>
+                                <p style="margin: 22px 0 0 0; font-size: 16px; color: #0f172a;">
+                                    Te esperamos con los brazos abiertos.<br>
+                                    <strong style="color: #b45309; font-weight: 600;">Equipo BuonQ</strong>
+                                </p>
+                            </div>
+
+                        </td>
+                    </tr>
+
+                    <!-- FOOTER moderno con detalles de contacto -->
+                    <tr>
+                        <td align="center" style="background: #faf9f7; padding: 32px 30px; border-top: 1px solid #eee7df;">
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td align="center">
+                                        <!-- Mini logo de texto -->
+                                        <div style="font-size: 24px; margin-bottom: 8px;">🍝🍷</div>
+                                        <p style="margin: 0; color: #5b4b3a; font-size: 14px; font-weight: 500; letter-spacing: 1px;">
+                                            BuonQ · Fast Food & Restaurant
+
+                                        </p>
+                                        <p style="margin: 8px 0 0 0; color: #7c6e5d; font-size: 13px;">
+                                            Carrera 14 # 93-56, Bogotá, Colombia
+                                        </p>
+                                        <p style="margin: 6px 0 0 0; color: #7c6e5d; font-size: 13px;">
+                                            📞 +57 315 272 43 55 ·  ✉️ buonq@restaurant.com
+                                        </p>
+                                        <!-- Línea divisora sutil -->
+                                        <div style="width: 100px; height: 1px; background: #e2d9cf; margin: 20px auto 15px;"></div>
+                                        <p style="margin: 0; color: #9c8a72; font-size: 12px;">
+                                            Este correo fue generado automáticamente tras registrar una reserva.<br>
+                                            Por favor no responder directamente a este mensaje automatizado.
+                                        </p>
+                                        <p style="margin: 15px 0 0 0; color: #b9aa93; font-size: 11px;">
+                                            🌟 Disfruta de una velada inolvidable con los sabores auténticos de Italia.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <!-- Línea de cortesía fuera del contenedor -->
+                <div style="text-align: center; margin-top: 25px;">
+                    <p style="font-size: 12px; color: #8c7b68; margin: 0;">© 2025 BuonQ — Sabor y tradición</p>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <!--[if (gte mso 9)|(IE)]>
+            </td>
+        </tr>
+    </table>
+    <![endif]-->
+</body>
+</html>
